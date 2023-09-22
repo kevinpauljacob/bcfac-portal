@@ -14,7 +14,7 @@ export default function Card() {
             <div className="flex justify-between items-center border-b border-black/20 py-2">
                 <h3 className="text-xl font-semibold">1st September 2023</h3>
                 <p className="flex justify-between items-center" onClick={handleCardClick}>
-                    <span className="text-sm pr-2 hover:-translate-x-1 transition ease-in-out duration-300 hover:transition hover:ease-in-out hover:duration-300 font-semibold">Click to View More</span>
+                    <span className="text-sm pr-2 hover:-translate-x-1 transition ease-in-out duration-300 hover:transition hover:ease-in-out hover:duration-300 font-semibold cursor-pointer">Click to View More</span>
                     <HiOutlineArrowNarrowRight/>
                 </p>
             </div>
