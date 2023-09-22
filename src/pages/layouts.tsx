@@ -11,10 +11,10 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <main className={` max-w-[1300px] mx-auto sm:py-5 sm:px-10 py-10 px-5 min-h-screen ${montserrat.className}`}>
+    <main className={`flex flex-col max-w-[1300px] mx-auto sm:py-5 sm:px-10 py-10 px-5 min-h-screen ${montserrat.className}`}>
       <Navbar />
       <section>{children}</section>
-      <Footer />
+      <Footer className=""/>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import { db } from '../../../../firebase';
 
 type Lecture = {
   id: string;
@@ -54,14 +54,7 @@ export default function Material() {
               ))}
             </ol>
           </div>
-          <div className="my-5">
-            <h3 className="text-lg font-bold mb-2">Recorded Lectures</h3>
-            <ol className="text-md pl-2">
-              {lectureData.recordingLinks.map((link, index) => (
-                <li key={index}>{`${index + 1}. ${link}`}</li>
-              ))}
-            </ol>
-          </div>
+          {/* Add rendering for Video Recordings, Slides, and Notes here */}
         </div>
       ) : (
         <p>Loading...</p>

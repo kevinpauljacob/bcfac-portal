@@ -1,22 +1,13 @@
 import React, { useState } from "react";
-import { PiArrowBendDoubleUpRightDuotone } from 'react-icons/pi'
-
-interface LoginProps {
-    showLogin: boolean;
-    setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  }
+import Link from 'next/link'
   
-  const Login: React.FC<LoginProps> = ({ showLogin, setShowLogin }) => {
-
-    const handleCloseLogin = () => {
-        setShowLogin(false);
-    }
+  const Login = () => {
   
-  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +16,6 @@ interface LoginProps {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Perform login logic here using email and password
     console.log("Login submitted!");
   };
 
@@ -34,13 +24,13 @@ interface LoginProps {
       <h2 className="text-2xl font-semibold">Welcome Back!</h2>
       <form onSubmit={handleSubmit} className="w-[300px] mt-5">
         <div className="flex flex-col">
-          <label htmlFor="username" className="text-sm font-semibold my-2">Username:</label>
+          <label htmlFor="email" className="text-sm font-semibold my-2">Email:</label>
           <input
-            type="username"
-            placeholder="Enter your username"
-            id="username"
-            value={userName}
-            onChange={handleUserNameChange}
+            type="email"
+            placeholder="Enter your email"
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
             className="text-sm border-2 border-black rounded-md focus:outline-none focus:bg-black/10 transition ease-in-out duration-500 p-2"
           />
         </div>
@@ -58,11 +48,10 @@ interface LoginProps {
         <button type="submit" className="text-md font-semibold bg-white text-black border-2 border-black rounded-md hover:bg-black hover:text-white transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 p-1.5 w-[300px] mt-3">
             Login
         </button>
-        <p className="text-sm font-semibold text-center mt-5">Don&apos;t have an account? <span className="underline">Register</span></p>
+        <Link href="/register"> 
+          <p className="text-sm font-semibold text-center mt-5">Don&apos;t have an account? <span className="underline">Register</span></p>
+        </Link>
       </form>
-      <button onClick={handleCloseLogin} className="fixed top-5 right-5 text-3xl">
-        <PiArrowBendDoubleUpRightDuotone/>
-      </button>
     </div>
   );
 };

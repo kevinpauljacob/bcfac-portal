@@ -1,35 +1,24 @@
 import React, { useState } from "react";
-import { PiArrowBendDoubleUpRightDuotone } from 'react-icons/pi'
+import Link from 'next/link'
 
-interface RegisterProps {
-    showRegister: boolean;
-    setShowRegister: React.Dispatch<React.SetStateAction<boolean>>;
-}
-  
-const Register: React.FC<RegisterProps> = ({ showRegister, setShowRegister }) => {
-
-    const handleCloseRegister = () => {
-        setShowRegister(false);
-    }
+const Register = () => {
 
     type FormValues = {
-        firstName: string;
-        lastName: string;
+        name: string;
         email: string;
-        userName: string;
+        registrationNumber: string;
         password: string;
       }
       
 
     const [formValues, setFormValues] = useState<FormValues>({
-        firstName: "",
-        lastName: "",
+        name: "",
         email: "",
-        userName: "",
+        registrationNumber: "",
         password: "",
     });
     
-    const {firstName, lastName, email, userName, password} = formValues;
+    const {name, email, registrationNumber, password} = formValues;
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues((prevState) => ({
@@ -49,23 +38,12 @@ const Register: React.FC<RegisterProps> = ({ showRegister, setShowRegister }) =>
         <h2 className="text-2xl font-semibold">Welcome!</h2>
         <form onSubmit={handleSubmit} className="w-[300px] mt-5">
             <div className="flex flex-col">
-            <label htmlFor="firstName" className="text-sm font-semibold my-2">First Name:</label>
+            <label htmlFor="Name" className="text-sm font-semibold my-2">Name:</label>
             <input
-                type="firstName"
-                placeholder="Enter your first name"
-                id="firstName"
-                value={firstName}
-                onChange={handleChange}
-                className="text-sm border-2 border-black rounded-md focus:outline-none focus:bg-black/10 transition ease-in-out duration-500 p-2"
-            />
-            </div>
-            <div className="flex flex-col">
-            <label htmlFor="lastName" className="text-sm font-semibold my-2">Last Name:</label>
-            <input
-                type="lastName"
-                placeholder="Enter your last name"
-                id="firstName"
-                value={lastName}
+                type="Name"
+                placeholder="Enter your name"
+                id="Name"
+                value={name}
                 onChange={handleChange}
                 className="text-sm border-2 border-black rounded-md focus:outline-none focus:bg-black/10 transition ease-in-out duration-500 p-2"
             />
@@ -82,12 +60,12 @@ const Register: React.FC<RegisterProps> = ({ showRegister, setShowRegister }) =>
             />
             </div>
             <div className="flex flex-col">
-            <label htmlFor="username" className="text-sm font-semibold my-2">Username:</label>
+            <label htmlFor="registrationNumber" className="text-sm font-semibold my-2">Registration Number:</label>
             <input
-                type="username"
-                placeholder="Enter your username"
+                type="registrationNumber"
+                placeholder="Enter your registration number"
                 id="username"
-                value={userName}
+                value={registrationNumber}
                 onChange={handleChange}
                 className="text-sm border-2 border-black rounded-md focus:outline-none focus:bg-black/10 transition ease-in-out duration-500 p-2"
             />
@@ -106,11 +84,10 @@ const Register: React.FC<RegisterProps> = ({ showRegister, setShowRegister }) =>
             <button type="submit" className="text-md font-semibold bg-white text-black border-2 border-black rounded-md hover:bg-black hover:text-white transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 p-1.5 w-[300px] mt-3">
                 Register
             </button>
-            <p className="text-sm font-semibold text-center mt-5">Already have an account? <span className="underline">Login</span></p>
+            <Link href="/login">
+                <p className="text-sm font-semibold text-center mt-5">Already have an account? <span className="underline">Login</span></p>
+            </Link>
         </form>
-        <button onClick={handleCloseRegister} className="fixed top-5 right-5 text-3xl">
-            <PiArrowBendDoubleUpRightDuotone/>
-        </button>
         </div>
     );
 };

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+type FooterProps = React.ComponentProps<'footer'>
 
-export default function Footer() {
+const Footer: React.FC<FooterProps> = () => {
   const links = [
     {name: "About the Course", href: "#about"},
     {name: "Syllabus & Topics Covered", href: "#syllabus"},
@@ -11,7 +12,7 @@ export default function Footer() {
   ]; 
 
   return (
-    <section className="border-t border-black/20 sm:pt-5 pt-3 mt-20">
+    <section className="mt-auto border-t border-black/20 sm:pt-5 pt-3">
       <div className="flex md:flex-row flex-col justify-between">
         <div className="">
           <p className='text-xl font-bold'>
@@ -39,3 +40,5 @@ export default function Footer() {
     </section>
   )
 }
+
+export default Footer;
