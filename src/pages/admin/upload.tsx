@@ -3,8 +3,9 @@ import {BsCheck2} from 'react-icons/bs'
 import {IoCloseOutline} from 'react-icons/io5'
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase'
+import withAdminAuth from '@/utils/withAdminAuth';
 
-export default function Upload() {
+const Upload = () => {
   const [lectureDate, setLectureDate] = useState<string>('');
   const [topicsCovered, setTopicsCovered] = useState<string[]>([]);
   const [topic, setTopic] = useState<string>('');
@@ -150,3 +151,5 @@ export default function Upload() {
     </div>
   )
 }
+
+export default withAdminAuth(Upload);

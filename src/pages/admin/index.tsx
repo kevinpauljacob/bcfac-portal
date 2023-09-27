@@ -1,8 +1,9 @@
 import React from 'react'
 import Search from '@/components/utils/Search'
 import Card from '@/components/dashboard/AdminCard'
+import withAdminAuth from '@/utils/withAdminAuth'
 
-export default function dashboard() {
+const Dashboard = () => {
   return (
     <div>
         <Search/>
@@ -17,3 +18,5 @@ export default function dashboard() {
     </div>
   )
 }
+
+export default withAdminAuth(Dashboard);
