@@ -3,6 +3,7 @@ import Search from '@/components/utils/Search'
 import Card from '@/components/dashboard/Card'
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import withAuth from '@/utils/withAuth';
 
 type Lecture = {
   id: string;
@@ -11,7 +12,7 @@ type Lecture = {
   recordingLinks: string[];
 };
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [lectures, setLectures] = useState<Lecture[]>([]);
 
   useEffect(() => {
@@ -46,3 +47,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+export default withAuth(Dashboard);

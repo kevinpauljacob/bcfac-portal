@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase';
+import withAdminAuth from '@/utils/withAdminAuth';
 
 type Lecture = {
   id: string;
@@ -10,7 +11,7 @@ type Lecture = {
   recordingLinks: string[];
 };
 
-export default function Material() {
+const Material = () => {
   const router = useRouter();
   const id = router.query.id as string | undefined; 
   const [lectureData, setLectureData] = useState<Lecture | undefined>();
@@ -62,3 +63,5 @@ export default function Material() {
     </div>
   );
 }
+
+export default withAdminAuth(Material);

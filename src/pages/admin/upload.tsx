@@ -6,8 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { db } from "../../../firebase";
 
-export default function Upload() {
+
   const [lectureDate, setLectureDate] = useState<string>("");
+
+
+const Upload = () => {
+  const [lectureDate, setLectureDate] = useState<string>('');
   const [topicsCovered, setTopicsCovered] = useState<string[]>([]);
   const [topic, setTopic] = useState<string>("");
   const [recordingLinks, setRecordingLinks] = useState<string[]>([]);
@@ -182,3 +186,5 @@ export default function Upload() {
     </div>
   );
 }
+
+export default( Upload);
