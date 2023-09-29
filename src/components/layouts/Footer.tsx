@@ -16,10 +16,10 @@ const Footer: React.FC<FooterProps> = () => {
       <div className="flex md:flex-row flex-col justify-between">
         <div className="">
           <p className='text-xl font-bold'>
-            Blockchain Foundations, Architecture and Consensus Mechanisms
+          Course Code
           </p>
           <p className={`text-sm lg:text-md font-semibold max-w-[250px] mb-2`}>
-            Course Portal
+          18CSE416
           </p>
           
         </div>
