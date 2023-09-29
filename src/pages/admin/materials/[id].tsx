@@ -99,7 +99,7 @@ const Material = () => {
   };
 
   const goBack = () => {
-    router.back();
+    router.replace('/admin');
   }
 
   const saveChangesToFirebase = async (e: React.FormEvent) => {
@@ -114,7 +114,7 @@ const Material = () => {
           recordingLinks: lectureData.recordingLinks,
         });
         console.log('Changes saved to Firebase!');
-        router.push(`/admin`);
+        router.replace(`/admin`);
       } catch (error) {
         console.error('Error saving changes to Firebase: ', error);
       }

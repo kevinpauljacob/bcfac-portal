@@ -40,7 +40,7 @@ const Material = () => {
   }, [id]);
 
   const goBack = () => {
-    router.back();
+    router.replace('/admin');
   }
 
   return (
