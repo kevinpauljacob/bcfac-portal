@@ -17,7 +17,7 @@ export default function AdminCard({ lecture }: CardProps) {
     const router = useRouter();
 
     const handleCardClick = (id: string) => {
-        router.push(`/materials/${id}`);
+        router.push(`admin/materials/${id}`);
     }
 
     return (
