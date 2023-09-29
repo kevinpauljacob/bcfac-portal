@@ -74,10 +74,10 @@ const Register = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full">
-      <h2 className="text-2xl font-semibold">Welcome!</h2>
+      <h2 className="text-2xl font-semibold pt-3">Welcome!</h2>
       <form onSubmit={handleSubmit} className="w-[300px] mt-5">
         <div className="flex flex-col">
-          <label htmlFor="name" className="text-sm font-semibold my-2">
+          <label htmlFor="name" className="text-sm font-semibold my-1">
             Name:
           </label>
           <input

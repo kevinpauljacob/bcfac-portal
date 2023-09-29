@@ -36,7 +36,7 @@ const Login = () => {
 
 return (
   <div className="flex flex-col items-center justify-center h-full w-full">
-    <h2 className="text-2xl font-semibold">Welcome Back!</h2>
+    <h2 className="text-2xl font-semibold pt-3">Welcome Back!</h2>
     <form onSubmit={handleSubmit} className="w-[300px] mt-5">
       <div className="flex flex-col">
         <label htmlFor="email" className="text-sm font-semibold my-2">Email:</label>

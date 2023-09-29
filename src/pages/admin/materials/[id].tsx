@@ -98,6 +98,10 @@ const Material = () => {
     }
   };
 
+  const goBack = () => {
+    router.back();
+  }
+
   const saveChangesToFirebase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (lectureData) {
@@ -208,12 +212,20 @@ const Material = () => {
                 </li>
               </ol>
             </div>
-            <button 
-            className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
-            onClick={(e) => {saveChangesToFirebase(e)}}
-          >
-            Save
-          </button>
+            <div className='flex justify-between'>
+              <button 
+              className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+              onClick={(e) => {saveChangesToFirebase(e)}}
+              >
+              Save
+              </button>
+              <button 
+              className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+              onClick={goBack}
+              >
+              Go Back
+              </button>
+          </div>
           </form>
           {/* Add rendering for Video Recordings, Slides, and Notes here */}
         </div>
