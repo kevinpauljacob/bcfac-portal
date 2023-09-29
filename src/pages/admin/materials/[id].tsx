@@ -15,6 +15,8 @@ const Material = () => {
   const router = useRouter();
   const id = router.query.id as string | undefined; 
   const [lectureData, setLectureData] = useState<Lecture | undefined>();
+  const [isEditable, setIsEdiable] = useState<boolean>(false);
+  const [lectureDate, setLectureDate] = useState<string | undefined>(lectureData?.lectureDate);
 
   useEffect(() => {
     const fetchLectureData = async () => {
@@ -39,24 +41,30 @@ const Material = () => {
     }
   }, [id]);
 
+
+
   return (
     <div className="my-5">
       {lectureData ? (
         <div>
-          <div className="border-b border-black/20 mb-5">
-            <p className="text-sm font-semibold">Lecture</p>
-            <h2 className="text-2xl font-bold">{lectureData.lectureDate}</h2>
-          </div>
-          <div className="my-5">
-            <h3 className="text-lg font-bold mb-2">Topics Covered</h3>
-            <ol className="text-md pl-2">
-              {lectureData.topicsCovered.map((topic, index) => (
-                <li key={index}>{`${index + 1}. ${topic}`}</li>
-              ))}
-            </ol>
-          </div>
+          <form>
+            <div className="border-b border-black/20 mb-5">
+              <label htmlFor='Lecture' className="text-sm font-semibold">Lecture</label>
+              <input type='text' className="text-2xl font-bold" value={lectureDate} onChange={(e) => setLectureDate(e.target.value)} />
+              <input type='text' />
+            </div>
+            <div className="my-5">
+              <h3 className="text-lg font-bold mb-2">Topics Covered</h3>
+              <ol className="text-md pl-2">
+                {lectureData.topicsCovered.map((topic, index) => (
+                  <li key={index}>{`${index + 1}. ${topic}`}</li>
+                ))}
+              </ol>
+            </div>
+          </form>
           {/* Add rendering for Video Recordings, Slides, and Notes here */}
         </div>
+        
       ) : (
         <p>Loading...</p>
       )}
