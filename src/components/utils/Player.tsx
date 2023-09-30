@@ -6,12 +6,12 @@ interface YouTubePlayerProps {
   }
 
   const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId }) => {
-    const onReady = (event) => {
+    const onReady = (event: any) => {
       const player = event.target;
     //   player.playVideo();
     };
   
-    const onError = (error) => {
+    const onError = (error: any) => {
       console.error('YouTube Player Error:', error);
     };
   
