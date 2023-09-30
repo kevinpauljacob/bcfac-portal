@@ -46,9 +46,27 @@ const Material = () => {
     }
   }, [id]);
 
+  useEffect((() => {
+    console.log("Lecture Date: ", lectureDate);
+    console.log("New Topic: ", newTopic);
+    console.log("New Recording Link: ", newRecordingLink);
+  }), [lectureDate, newRecordingLink, newTopic]);
+
+  useEffect((() => {
+    console.log("Lecture Data: ", lectureData)
+  }), [lectureData]);
 
   const handleLectureDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLectureDate(e.target.value);
+    const newDate = e.target.value;
+    setLectureDate(newDate);
+
+    if (lectureData) {
+      const updatedLectureData: Lecture = {
+        ...lectureData,
+        lectureDate: newDate,
+      };
+      setLectureData(updatedLectureData);
+    }
   };
 
   const updateLectureTopics = (updatedTopics: string[]) => {
@@ -104,31 +122,37 @@ const Material = () => {
 
   const saveChangesToFirebase = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (lectureData) {
-      try {
-        // Update the Firebase document with the modified lectureData
-        const lectureRef = doc(db, 'lectures', lectureData.id); // Replace 'lectures' with your Firestore collection name
-        await updateDoc(lectureRef, {
+    try {
+      if (id && lectureData) {
+        const lectureRef = doc(db, 'lectures', id);
+  
+        const updatedData = {
           lectureDate: lectureData.lectureDate,
           topicsCovered: lectureData.topicsCovered,
           recordingLinks: lectureData.recordingLinks,
-        });
+        };
+  
+        await updateDoc(lectureRef, updatedData);
+  
         console.log('Changes saved to Firebase!');
         router.replace(`/admin`);
-      } catch (error) {
-        console.error('Error saving changes to Firebase: ', error);
+      } else {
+        console.error('id is undefined.');
       }
+    } catch (error) {
+      console.error('Error saving changes to Firebase: ', error);
     }
   };
-
-
+  
+  
+  
   return (
     <div className="my-5">
       {lectureData ? (
         <div>
           <form>
-            <div className="border-b border-black/20 mb-5">
-              <label htmlFor='Lecture' className="text-sm font-semibold block">Lecture</label>
+            <div className="">
+              <label htmlFor='Lecture' className="text-sm font-semibold block mb-2">Lecture</label>
               <input
                 type="text"
                 className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
@@ -139,10 +163,10 @@ const Material = () => {
 
             {/* topics covered editform */}
             <div className="my-5">
-            <label className="text-md font-semibold mb-1">
+            <label className="text-md font-semibold mb-2">
               Topics Covered
             </label>
-              <ol className="text-md pl-2">
+              <ol className="text-md">
                 {lectureData.topicsCovered.map((topic, index) => (
                   <li key={index} className='flex items-center w-full mb-1'>
                     <input
@@ -160,6 +184,7 @@ const Material = () => {
                     </button>
                   </li>
                 ))}
+                <p className="text-sm font-semibold mt-3 mb-1">Add New Topic</p>
                 <li className='flex items-center w-full'>
                   <input
                     type="text"
@@ -176,10 +201,10 @@ const Material = () => {
 
             {/* Video recording links */}
             <div className="my-5">
-            <label className="text-md font-semibold mb-1">
+            <label className="text-md font-semibold mb-2">
               Recording Links
             </label>
-              <ol className="text-md pl-2">
+              <ol className="text-md">
                 {lectureData.recordingLinks.map((link, index) => (
                   <li key={index} className='flex items-center w-full mb-1'>
                     <input
@@ -199,6 +224,7 @@ const Material = () => {
                     </button>
                   </li>
                 ))}
+                <p className="text-sm font-semibold mt-3 mb-1">Add New Recording Link</p>
                 <li className='flex items-center w-full'>
                   <input
                     type="text"
@@ -214,16 +240,16 @@ const Material = () => {
             </div>
             <div className='flex justify-between'>
               <button 
-              className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
-              onClick={(e) => {saveChangesToFirebase(e)}}
+                className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+                onClick={goBack}
               >
-              Save
+                Go Back
               </button>
               <button 
-              className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
-              onClick={goBack}
+                className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+                onClick={(e) => {saveChangesToFirebase(e)}}
               >
-              Go Back
+                Save
               </button>
           </div>
           </form>
