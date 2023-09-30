@@ -7,12 +7,10 @@ const Footer: React.FC<FooterProps> = () => {
     {name: "About the Course", href: "#about"},
     {name: "Syllabus & Topics Covered", href: "#syllabus"},
     {name: "Study Material Status", href: "#materials"},
-    // { name: 'Not signed up?, Sign up', href: '/signup' },
-    // { name: 'Already have an account?, Login', href: '/login' }
   ]; 
 
   return (
-    <section className="border-t border-black/20 sm:pt-5 pt-3 mt-5">
+    <section className="border-t border-black/20 sm:pt-5 pt-3 mt-auto">
       <div className="flex md:flex-row flex-col justify-between">
         <div className="">
           <p className='text-xl font-bold'>

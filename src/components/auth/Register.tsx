@@ -28,49 +28,64 @@ const Register = () => {
     console.log(formValues);
   }, [formValues])
 
+  const isValidEmail = () => {
+    const emailPattern = /^[A-Za-z]{2}\d{4}@srmist\.edu\.in$/;
+    return emailPattern.test(email);
+  };
+
+  const isValidRegistrationNumber = () => {
+    const registrationNumberPattern = /^RA\d{13}$/;
+    return registrationNumberPattern.test(registrationNumber);
+  };
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-        const newUser = {
-          name,
-          email,
-          registrationNumber,
-          role: "student"
-        };
-  
-        const auth = getAuth();
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+    if (isValidEmail() && isValidRegistrationNumber()) {
+      try {
+          const newUser = {
+            name,
+            email,
+            registrationNumber,
+            role: "student"
+          };
+    
+          const auth = getAuth();
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
 
-        const { uid } = userCredential.user;
+          const { uid } = userCredential.user;
 
-        await setDoc(doc(db, 'users', uid), {
-            ...newUser,
-        });
-  
-        console.log("User registered with ID: ", uid);
-  
-        setFormValues({
-          name: "",
-          email: "",
-          registrationNumber: "",
-          password: "",
-        });
-
-        router.push('/dashboard');
-      } catch (error) {
-        console.error("Error registering user: ", error);
-        setFormValues({
+          await setDoc(doc(db, 'users', uid), {
+              ...newUser,
+          });
+    
+          console.log("User registered with ID: ", uid);
+    
+          setFormValues({
             name: "",
             email: "",
             registrationNumber: "",
             password: "",
           });
-      }
-    };
+
+          router.push('/dashboard');
+        } catch (error) {
+          console.error("Error registering user: ", error);
+          setFormValues({
+              name: "",
+              email: "",
+              registrationNumber: "",
+              password: "",
+            });
+        }
+    } else {
+      console.error("Email or Registration Number does not match the required pattern.");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full">

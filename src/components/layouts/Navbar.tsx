@@ -5,10 +5,12 @@ import { SlMenu } from 'react-icons/sl'
 import { PiArrowBendDoubleUpLeftDuotone } from 'react-icons/pi'
 import { BiUser } from 'react-icons/bi'
 import { AppContext } from '@/context/AppContext';
+import { useRouter } from "next/router";
 
 export default function Navbar() {
     const user = useContext(AppContext);
     const [showMenu, setShowMenu] = useState<boolean>(false);
+    const router = useRouter();
 
     const handleMenu = () => {
         setShowMenu(!showMenu);
@@ -20,15 +22,20 @@ export default function Navbar() {
         {name: "Study Material Status", href: "#materials"},
     ];
 
+    const handleLogoClick = () => {
+        if (user) {
+            router.push("/dashboard");
+        }
+        router.push("/");
+    }
+
     return (
         <header>
             <nav className="flex justify-between items-end border-b border-black/20 sm:pb-5 pb-3">
                 <div className="">
-                    <Link href="/">
-                        <h3 className="text-xl font-bold mr-2">
-                            Blockchain Foundations, Architecture and Consensus Mechanisms
-                        </h3>
-                    </Link>
+                    <h3 onClick={handleLogoClick} className="text-xl font-bold mr-2">
+                        Blockchain Foundations, Architecture and Consensus Mechanisms
+                    </h3>
                     <p className="text-sm lg:text-md font-semibold">
                         Course Portal
                     </p>

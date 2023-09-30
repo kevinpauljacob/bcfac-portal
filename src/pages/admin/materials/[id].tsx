@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import withAdminAuth from '@/utils/withAdminAuth';
 import {IoCloseOutline} from 'react-icons/io5' 
@@ -120,6 +120,22 @@ const Material = () => {
     router.replace('/admin');
   }
 
+  const deleteLecture = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      if (id) {
+        const lectureRef = doc(db, 'lectures', id);
+        await deleteDoc(lectureRef);
+        console.log('Document deleted from Firebase!');
+        router.replace('/admin');
+      } else {
+        console.error('id is undefined.');
+      }
+    } catch (error) {
+      console.error('Error deleting document from Firebase: ', error);
+    }
+  };
+
   const saveChangesToFirebase = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -160,84 +176,84 @@ const Material = () => {
                 onChange={handleLectureDateChange}
               />
             </div>
-
-            {/* topics covered editform */}
-            <div className="my-5">
-            <label className="text-md font-semibold mb-2">
-              Topics Covered
-            </label>
-              <ol className="text-md">
-                {lectureData.topicsCovered.map((topic, index) => (
-                  <li key={index} className='flex items-center w-full mb-1'>
+            { lectureData.topicsCovered && 
+              <div className="my-5">
+                <label className="text-md font-semibold mb-2">
+                  Topics Covered
+                </label>
+                <ol className="text-md">
+                  {lectureData.topicsCovered.map((topic, index) => (
+                    <li key={index} className='flex items-center w-full mb-1'>
+                      <input
+                        type="text"
+                        className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
+                        value={topic}
+                        onChange={(e) => {
+                          const updatedTopics = [...lectureData.topicsCovered];
+                          updatedTopics[index] = e.target.value;
+                          updateLectureTopics(updatedTopics);
+                        }}
+                      />
+                      <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-red-400/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={() => deleteTopic(index)}>
+                        <IoCloseOutline />
+                      </button>
+                    </li>
+                  ))}
+                  <p className="text-sm font-semibold mt-3 mb-1">Add New Topic</p>
+                  <li className='flex items-center w-full'>
                     <input
                       type="text"
                       className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
-                      value={topic}
-                      onChange={(e) => {
-                        const updatedTopics = [...lectureData.topicsCovered];
-                        updatedTopics[index] = e.target.value;
-                        updateLectureTopics(updatedTopics);
-                      }}
+                      value={newTopic}
+                      onChange={(e) => setNewTopic(e.target.value)}
                     />
-                    <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-red-400/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={() => deleteTopic(index)}>
-                      <IoCloseOutline />
+                    <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={addTopic}>
+                      <BsCheck2 />
                     </button>
                   </li>
-                ))}
-                <p className="text-sm font-semibold mt-3 mb-1">Add New Topic</p>
-                <li className='flex items-center w-full'>
-                  <input
-                    type="text"
-                    className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
-                    value={newTopic}
-                    onChange={(e) => setNewTopic(e.target.value)}
-                  />
-                  <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={addTopic}>
-                    <BsCheck2 />
-                  </button>
-                </li>
-              </ol>
-            </div>
-
-            {/* Video recording links */}
-            <div className="my-5">
-            <label className="text-md font-semibold mb-2">
-              Recording Links
-            </label>
-              <ol className="text-md">
-                {lectureData.recordingLinks.map((link, index) => (
-                  <li key={index} className='flex items-center w-full mb-1'>
+                </ol>
+              </div>
+            }
+            { lectureData.recordingLinks &&
+              <div className="my-5">
+              <label className="text-md font-semibold mb-2">
+                Recording Links
+              </label>
+                <ol className="text-md">
+                  {lectureData.recordingLinks.map((link, index) => (
+                    <li key={index} className='flex items-center w-full mb-1'>
+                      <input
+                        type="text"
+                        className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
+                        value={link}
+                        onChange={(e) => {
+                          if (lectureData) {
+                            const updatedLinks = [...lectureData.recordingLinks];
+                            updatedLinks[index] = e.target.value;
+                            updateRecordingLinks(updatedLinks);
+                          }
+                        }}
+                      />
+                      <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-red-400/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={() => deleteRecordingLink(index)}>
+                        <IoCloseOutline />
+                      </button>
+                    </li>
+                  ))}
+                  <p className="text-sm font-semibold mt-3 mb-1">Add New Recording Link</p>
+                  <li className='flex items-center w-full'>
                     <input
                       type="text"
                       className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
-                      value={link}
-                      onChange={(e) => {
-                        if (lectureData) {
-                          const updatedLinks = [...lectureData.recordingLinks];
-                          updatedLinks[index] = e.target.value;
-                          updateRecordingLinks(updatedLinks);
-                        }
-                      }}
+                      value={newRecordingLink}
+                      onChange={(e) => setNewRecordingLink(e.target.value)}
                     />
-                    <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-red-400/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={() => deleteRecordingLink(index)}>
-                      <IoCloseOutline />
+                    <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={addRecordingLink}>
+                      <BsCheck2 />
                     </button>
                   </li>
-                ))}
-                <p className="text-sm font-semibold mt-3 mb-1">Add New Recording Link</p>
-                <li className='flex items-center w-full'>
-                  <input
-                    type="text"
-                    className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
-                    value={newRecordingLink}
-                    onChange={(e) => setNewRecordingLink(e.target.value)}
-                  />
-                  <button type="button" className='border border-black/20 rounded-md px-3 py-3 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500' onClick={addRecordingLink}>
-                    <BsCheck2 />
-                  </button>
-                </li>
-              </ol>
-            </div>
+                </ol>
+              </div>
+            }
             <div className='flex justify-between'>
               <button 
                 className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
@@ -245,12 +261,20 @@ const Material = () => {
               >
                 Go Back
               </button>
-              <button 
-                className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
-                onClick={(e) => {saveChangesToFirebase(e)}}
-              >
-                Save
-              </button>
+              <div>
+                <button
+                  className="border border-black/20 rounded-md py-2 px-6 hover:bg-red-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2 mr-3"
+                  onClick={(e) => deleteLecture(e)}
+                >
+                  Delete
+                </button>
+                <button 
+                  className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+                  onClick={(e) => {saveChangesToFirebase(e)}}
+                >
+                  Save
+                </button>
+              </div>
           </div>
           </form>
           {/* Add rendering for Video Recordings, Slides, and Notes here */}
