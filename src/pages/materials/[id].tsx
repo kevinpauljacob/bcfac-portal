@@ -39,6 +39,10 @@ const Material = () => {
     }
   }, [id]);
 
+  const goBack = () => {
+    router.replace('/admin');
+  }
+
   return (
     <div className="my-5">
       {lectureData ? (
@@ -63,6 +67,12 @@ const Material = () => {
               ))}
             </ol>
           </div>
+          <button 
+              className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+              onClick={goBack}
+              >
+              Go Back
+              </button>
         </div>
       ) : (
         <p>Loading...</p>
