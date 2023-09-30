@@ -12,7 +12,7 @@ const Footer: React.FC<FooterProps> = () => {
   ]; 
 
   return (
-    <section className="mt-auto border-t border-black/20 sm:pt-5 pt-3">
+    <section className="border-t border-black/20 sm:pt-5 pt-3 mt-5">
       <div className="flex md:flex-row flex-col justify-between">
         <div className="">
           <p className='text-xl font-bold'>
