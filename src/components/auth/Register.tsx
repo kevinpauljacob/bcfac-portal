@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { db } from '../../../firebase'
 import { collection, setDoc, doc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const router = useRouter();
@@ -26,7 +28,7 @@ const Register = () => {
 
   useEffect(() => {
     console.log(formValues);
-  }, [formValues])
+  }, [formValues]);
 
   const isValidEmail = () => {
     const emailPattern = /^[A-Za-z]{2}\d{4}@srmist\.edu\.in$/;
@@ -37,53 +39,60 @@ const Register = () => {
     const registrationNumberPattern = /^RA\d{13}$/;
     return registrationNumberPattern.test(registrationNumber);
   };
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isValidEmail() && isValidRegistrationNumber()) {
       try {
-          const newUser = {
-            name,
-            email,
-            registrationNumber,
-            role: "student"
-          };
-    
-          const auth = getAuth();
-          const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
+        const newUser = {
+          name,
+          email,
+          registrationNumber,
+          role: "student"
+        };
 
-          const { uid } = userCredential.user;
+        const auth = getAuth();
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-          await setDoc(doc(db, 'users', uid), {
-              ...newUser,
-          });
-    
-          console.log("User registered with ID: ", uid);
-    
-          setFormValues({
-            name: "",
-            email: "",
-            registrationNumber: "",
-            password: "",
-          });
+        const { uid } = userCredential.user;
 
-          router.push('/dashboard');
-        } catch (error) {
-          console.error("Error registering user: ", error);
-          setFormValues({
-              name: "",
-              email: "",
-              registrationNumber: "",
-              password: "",
-            });
-        }
+        await setDoc(doc(db, 'users', uid), {
+          ...newUser,
+        });
+
+        console.log("User registered with ID: ", uid);
+
+        setFormValues({
+          name: "",
+          email: "",
+          registrationNumber: "",
+          password: "",
+        });
+
+        // Show success toast notification
+        toast.success('Registration successful!');
+
+        router.push('/dashboard');
+      } catch (error) {
+        console.error("Error registering user: ", error);
+
+        // Show error toast notification
+        toast.error('Registration failed. Please try again.');
+
+        setFormValues({
+          name: "",
+          email: "",
+          registrationNumber: "",
+          password: "",
+        });
+      }
     } else {
       console.error("Email or Registration Number does not match the required pattern.");
+      toast.error('Registration failed. Please try again.');
     }
   };
 
@@ -162,6 +171,9 @@ const Register = () => {
           </p>
         </Link>
       </form>
+
+      {/* React-toastify container for displaying notifications */}
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 };

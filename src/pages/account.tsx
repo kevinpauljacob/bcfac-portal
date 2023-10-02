@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
-import withAuth from '@/utils/withAuth' 
-import { AppContext } from '@/context/AppContext'
-import { auth } from '../../firebase'
+import withAuth from '@/utils/withAuth';
+import { AppContext } from '@/context/AppContext';
+import { auth } from '../../firebase';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Account = () => {
   const router = useRouter();
@@ -10,17 +12,19 @@ const Account = () => {
 
   const handleLogout = () => {
     auth
-    .signOut()
-    .then(() => {
-      console.log("User has been logged out.");
-      router.push('/login');
-    })
-    .catch((error) => {
-      console.error("Error during logout:", error);
-    });
-  }
-
- 	// const submit = () => {}
+      .signOut()
+      .then(() => {
+        console.log("User has been logged out.");
+        // Show success toast notification
+        toast.success('Logout successful!');
+        router.push('/login');
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error);
+        // Show error toast notification
+        toast.error('Error during logout. Please try again.');
+      });
+  };
 
   return (
     <div className="">
