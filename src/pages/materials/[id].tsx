@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import { db, storage } from '../../../firebase';
 import withAuth from '@/utils/withAuth';
 import YouTubePlayer from '@/components/utils/Player';
+import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { BiDownload } from 'react-icons/bi';
 
 type Lecture = {
   id: string;
   lectureDate: string;
+  lectureId: string;
   topicsCovered: string[];
   recordingLinks: string[];
+  fileNames: { fileName: string; fileUrl: string }[];
 };
 
 const Material = () => {
   const router = useRouter();
   const id = router.query.id as string | undefined; 
   const [lectureData, setLectureData] = useState<Lecture | undefined>();
+  const [files, setFiles] = useState<{ fileName: string; fileUrl: string }[]>([]);
 
   useEffect(() => {
     const fetchLectureData = async () => {
@@ -40,8 +45,37 @@ const Material = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    const fetchFiles = async () => {
+      if (lectureData) {
+        const lectureId = lectureData.lectureId;
+        const folderRef = ref(storage, `lecture_materials/${lectureId}`);
+        
+        try {
+          const listResult = await listAll(folderRef);
+          const downloadUrls = await Promise.all(
+            listResult.items.map(async (item) => {
+              return await getDownloadURL(item);
+            })
+          );
+
+          const fileNamesWithUrls = lectureData.fileNames.map((fileNameObj, index) => ({
+            fileName: fileNameObj.fileName,
+            fileUrl: downloadUrls[index],
+          }));
+
+          setFiles(fileNamesWithUrls);
+        } catch (error) {
+          console.error('Error fetching files: ', error);
+        }
+      }
+    };
+
+    fetchFiles();
+  }, [lectureData]);
+
   const goBack = () => {
-    router.replace('/admin');
+    router.replace('/dashboard');
   }
 
   const extractVideoId = (link: string) => {
@@ -84,8 +118,28 @@ const Material = () => {
               </ol>
             </div>
           }
+          {files.length > 0 && (
+            <div className="my-5">
+              <h3 className="text-lg font-bold mb-2">Materials</h3>
+              <ul className="text-md flex">
+                {files.map((file, index) => (
+                  <li key={index} className="mr-2 mb-2">
+                    <a
+                      className="flex items-center bg-gray-600/10 rounded-md p-2"
+                      href={file.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="text-sm font-medium mr-2">{file.fileName}</span>
+                      <BiDownload/>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <button 
-            className="border border-black/20 rounded-md py-2 px-6 hover:bg-green-500/60 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
+            className="border border-black/20 rounded-md py-2 px-6 hover:bg-gray-400/30 transition ease-in-out duration-500 hover:transition hover:ease-in-out hover:duration-500 mt-2"
             onClick={goBack}
           >
             Go Back

@@ -16,15 +16,14 @@ const Footer: React.FC<FooterProps> = () => {
           <p className='text-xl font-bold'>
           Course Code
           </p>
-          <p className={`text-sm lg:text-md font-semibold max-w-[250px] mb-2`}>
+          <p className={`text-xs lg:text-sm font-semibold max-w-[250px] mb-2`}>
           18CSE416
           </p>
-          
         </div>
         <div className="flex flex-wrap justify-between">
           <div className="md:ml-5 mr-5 md:mr-0">
             <p className="text-xl font-bold">Links</p>
-            <ul className="text-md">
+            <ul className="text-sm">
                 {links.map((link, index) => (
                 <li key={index} className="">
                     <Link href={link.href} className='transition ease-in-out duration:300 hover:transition hover:ease-in-out hover:duration-300 hover:text-accent-1'>{link.name}</Link>
