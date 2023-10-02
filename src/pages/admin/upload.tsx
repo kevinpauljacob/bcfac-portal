@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsCheck2 } from "react-icons/bs";
 import { IoCloseOutline } from "react-icons/io5";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from "../../../firebase";
+import { v4 } from "uuid";
 import withAdminAuth from "@/utils/withAdminAuth";
 
 const Upload = () => {
@@ -11,7 +13,7 @@ const Upload = () => {
   const [topic, setTopic] = useState<string>("");
   const [recordingLinks, setRecordingLinks] = useState<string[]>([]);
   const [recordingLink, setRecordingLink] = useState<string>("");
-  const [pptUploads, setPptUploads] = useState<File[]>([]);
+  const [fileUploads, setFileUploads] = useState<File[]>([]);
 
   const handleAddTopic = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,31 +47,62 @@ const Upload = () => {
     setRecordingLinks(updatedLinks);
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setFileUploads(Array.from(files));
+    }
+  };
+
+  useEffect((() => {
+    console.log(fileUploads);
+  }), [fileUploads]);
+
   const submitFormData = async (e: React.FormEvent) => {
     e.preventDefault();
-    const lectureData = {
-      lectureDate,
-      topicsCovered,
-      recordingLinks,
-    };
-
+  
+    const lectureId = v4();
+    const lectureFolderRef = ref(storage, `lecture_materials/${lectureId}`);
+    const fileUploadPromises = fileUploads.map((file) => {
+      const fileName = file.name;
+      const fileRef = ref(lectureFolderRef, fileName);
+      return uploadBytes(fileRef, file, { customMetadata: { fileName: fileName } });
+    });
+  
     try {
+      await Promise.all(fileUploadPromises);
+  
+      const downloadUrls = await Promise.all(
+        fileUploads.map(async (file) => {
+          const fileName = file.name;
+          const fileRef = ref(lectureFolderRef, fileName);
+          return await getDownloadURL(fileRef);
+        })
+      );
+  
+      const fileNamesWithUrls = fileUploads.map((file, index) => ({
+        fileName: file.name,
+        fileUrl: downloadUrls[index],
+      }));
+  
+      const lectureData = {
+        lectureDate,
+        topicsCovered,
+        recordingLinks,
+        lectureId,
+        fileNames: fileNamesWithUrls,
+      };
+  
       const docRef = await addDoc(collection(db, "lectures"), lectureData);
       console.log("Document written with ID: ", docRef.id);
-
+  
       setLectureDate("");
       setTopicsCovered([]);
       setRecordingLinks([]);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
-  };
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      setPptUploads(Array.from(files));
-    }
-  };
+  };  
 
   return (
     <div className="my-5">
@@ -162,7 +195,6 @@ const Upload = () => {
           <input
             className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2"
             type="file"
-            placeholder="Enter the ppt"
             multiple
             name="files[]"
             onChange={handleFileUpload}
