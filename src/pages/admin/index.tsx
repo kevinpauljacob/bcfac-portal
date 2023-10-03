@@ -3,7 +3,7 @@ import Search from '@/components/utils/Search'
 import AdminCard from '@/components/dashboard/AdminCard'
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
-import withAuth from '@/utils/withAuth';
+import withAdminAuth from '@/utils/withAdminAuth';
 
 type Lecture = {
   id: string;
@@ -48,4 +48,4 @@ const Dashboard = () => {
   )
 }
 
-export default withAuth(Dashboard);
+export default withAdminAuth(Dashboard);
