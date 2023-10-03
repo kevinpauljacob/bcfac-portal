@@ -279,27 +279,27 @@ const Material = () => {
       {lectureData ? (
         <div>
           <form>
-            <div className="bg-gray-300/20 rounded-md p-1.5 shadow-md">
-              <label htmlFor='Lecture' className="text-md font-semibold block mb-2">Lecture</label>
-              <input
-                type="text"
-                className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
-                value={lectureDate}
-                onChange={handleLectureDateChange}
-              />
+            <div className="flex w-full">
+              <div className="bg-gray-300/20 rounded-md p-1.5 shadow-md w-[50%] mr-2">
+                <label htmlFor='Lecture' className="text-md font-semibold block mb-2">Lecture</label>
+                <input
+                  type="text"
+                  className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
+                  value={lectureDate}
+                  onChange={handleLectureDateChange}
+                />
+              </div>
+              <div className='flex flex-col bg-gray-300/20 rounded-md p-1.5 shadow-md w-[50%] ml-2'>
+                <label htmlFor='Date' className="text-md font-semibold mb-1">Date of Lecture</label>
+                <input 
+                  className="border border-black/20 rounded-md focus:outline-none focus:border-black/50 focus:bg-black/10 transition ease-in-out duration-500 p-2 w-full mr-2"
+                  type="date"
+                  id="dateOfLecture"
+                  value={editedDate}
+                  onChange={handleDateChange}
+                />
+              </div>
             </div>
-            {lectureData.dateOfLecture &&
-              <div>
-              <label className="text-md font-semibold mb-1">Date of Lecture</label>
-              <input 
-                className=""
-                type="date"
-                id="dateOfLecture"
-                value={editedDate}
-                onChange={handleDateChange}
-              />
-          </div>
-            }
             { lectureData.topicsCovered && 
               <div className="bg-gray-300/20 rounded-md p-1.5 shadow-md my-5">
                 <label className="text-md font-semibold mb-2">
