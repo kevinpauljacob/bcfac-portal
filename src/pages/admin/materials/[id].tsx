@@ -8,9 +8,11 @@ import withAdminAuth from '@/utils/withAdminAuth';
 import {IoCloseOutline} from 'react-icons/io5' 
 import {BsCheck2, BsTrash} from 'react-icons/bs'
 import { BiDownload } from 'react-icons/bi';
+import { Timestamp } from 'firebase/firestore';
 
 type Lecture = {
   id: string;
+  dateOfLecture: Timestamp;
   lectureDate: string;
   lectureId: string;
   topicsCovered: string[];
@@ -28,6 +30,7 @@ const Material = () => {
   const [newRecordingLink, setNewRecordingLink] = useState<string>('');
   const [fileUploads, setFileUploads] = useState<File[]>([]);
   const [files, setFiles] = useState<{ fileName: string; fileUrl: string }[]>([]);
+  const [editedDate, setEditedDate] = useState<string>("");
 
   useEffect(() => {
     const fetchLectureData = async () => {
@@ -40,6 +43,7 @@ const Material = () => {
             setLectureData(lectureSnapshot.data() as Lecture);
             setLectureDate(lectureSnapshot.data().lectureDate);
             setLectureId(lectureSnapshot.data().lectureId);
+            setEditedDate(lectureSnapshot.data().dateOfLecture.toDate().toISOString().split('T')[0]);
 
           } else {
             console.log('No such document!');
@@ -136,6 +140,10 @@ const Material = () => {
     router.replace('/admin');
   }
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedDate(e.target.value);
+  };
+
   const deleteLecture = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -215,6 +223,7 @@ const Material = () => {
   
         const updatedData = {
           lectureDate: lectureData.lectureDate,
+          dateOfLecture: Timestamp.fromDate(new Date(editedDate)),
           topicsCovered: lectureData.topicsCovered,
           recordingLinks: lectureData.recordingLinks,
           lectureId: lectureID,
@@ -279,6 +288,18 @@ const Material = () => {
                 onChange={handleLectureDateChange}
               />
             </div>
+            {lectureData.dateOfLecture &&
+              <div>
+              <label className="text-md font-semibold mb-1">Date of Lecture</label>
+              <input 
+                className=""
+                type="date"
+                id="dateOfLecture"
+                value={editedDate}
+                onChange={handleDateChange}
+              />
+          </div>
+            }
             { lectureData.topicsCovered && 
               <div className="bg-gray-300/20 rounded-md p-1.5 shadow-md my-5">
                 <label className="text-md font-semibold mb-2">
