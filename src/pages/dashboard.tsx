@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import Search from '@/components/utils/Search'
 import Card from '@/components/dashboard/Card'
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase';
 import withAuth from '@/utils/withAuth';
 
@@ -18,9 +18,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchLectures = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'lectures'));
+        const querySnapshot = collection(db, 'lectures');
+        const lecturesQuery = query(querySnapshot, orderBy('dateOfLecture', 'asc'));
+        const snapshot = await getDocs(lecturesQuery);
+
         const lectureData: Lecture[] = [];
-        querySnapshot.forEach((doc) => {
+        snapshot.forEach((doc) => {
           lectureData.push({ id: doc.id, ...doc.data() } as Lecture);
         });
         setLectures(lectureData);
