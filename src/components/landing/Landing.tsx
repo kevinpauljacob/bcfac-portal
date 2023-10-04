@@ -1,12 +1,12 @@
 import Link from "next/link";
 const Landing = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full">
+    <div className="flex flex-col items-center justify-center h-full w-full mt-5">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">
+        <h1 className="text-4xl font-bold mb-1">
           Welcome to BCFAC Online Portal
         </h1>
-        <p className="text-lg text-gray-600 mb-8">
+        <p className="text-lg font-semibold text-gray-600 mb-8">
           A one stop platform for all your study materials
         </p>
       </div>
@@ -16,13 +16,13 @@ const Landing = () => {
         <div className="w-1/2 p-4 border border-gray-300 rounded-md mr-4">
           <h2 className="text-2xl font-semibold mb-2">About the Subject</h2>
           <p className="text-lg">
-            "Blockchain Foundations, Architecture, and Consensus Mechanisms
+            Blockchain Foundations, Architecture, and Consensus Mechanisms
             provides a comprehensive exploration of blockchain technology.
             Students delve into decentralized principles, architectural
             intricacies, and key consensus mechanisms like Proof of Work and
             Proof of Stake. This subject offers a succinct yet insightful
-            understanding of blockchain's core concepts and its practical
-            applications across industries."
+            understanding of blockchain&apos;s core concepts and its practical
+            applications across industries.
           </p>
         </div>
 
@@ -32,11 +32,11 @@ const Landing = () => {
             How does the portal work?
           </h2>
           <p className="text-lg">
-            "By students, for students—our portal offers seamless access to
+            By students, for students—our portal offers seamless access to
             recorded lectures, presentation files, books, and various study
             materials. Stay updated weekly with the latest resources. Simply
             create an account to unlock a wealth of educational content.
-            Empowering your learning journey effortlessly."
+            Empowering your learning journey effortlessly.
           </p>
         </div>
       </div>

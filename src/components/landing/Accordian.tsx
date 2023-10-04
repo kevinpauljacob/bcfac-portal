@@ -77,7 +77,7 @@ const units = [
 export default function AccordionComponent() {
   return (
     <div>
-      <h1 className="mt-20 text-xl font-bold">Course Syllabus</h1>
+      <h1 className="mt-10 text-xl font-bold">Course Syllabus</h1>
       <Accordion type="single" collapsible className="border-0 p-3">
         {units.map((unit) => (
           <AccordionItem
