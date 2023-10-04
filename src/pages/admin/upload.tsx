@@ -8,9 +8,11 @@ import { v4 } from "uuid";
 import withAdminAuth from "@/utils/withAdminAuth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Timestamp } from 'firebase/firestore';
 
 const Upload = () => {
   const [lectureDate, setLectureDate] = useState<string>("");
+  const [dateOfLecture, setDateOfLecture] = useState<Date | null>(null);
   const [topicsCovered, setTopicsCovered] = useState<string[]>([]);
   const [topic, setTopic] = useState<string>("");
   const [recordingLinks, setRecordingLinks] = useState<string[]>([]);
@@ -86,8 +88,12 @@ const Upload = () => {
         fileName: file.name,
         fileUrl: downloadUrls[index],
       }));
+
+      const parsedDate = dateOfLecture ? new Date(dateOfLecture) : null;
+      const dateTimestamp = parsedDate ? Timestamp.fromDate(parsedDate) : null;
   
       const lectureData = {
+        dateOfLecture: dateTimestamp,
         lectureDate,
         topicsCovered,
         recordingLinks,
@@ -97,7 +103,8 @@ const Upload = () => {
   
       const docRef = await addDoc(collection(db, "lectures"), lectureData);
       console.log("Document written with ID: ", docRef.id);
-  
+       
+      setDateOfLecture(null);
       setLectureDate("");
       setTopicsCovered([]);
       setRecordingLinks([]);
@@ -126,6 +133,16 @@ const Upload = () => {
               setLectureDate(e.target.value);
             }}
           />
+        </div>
+        <div>
+            <label className="text-md font-semibold mb-1">Date of Lecture</label>
+            <input 
+              className=""
+              type="date"
+              id="dateOfLecture"
+              value={dateOfLecture ? dateOfLecture.toISOString().split('T')[0] : ''}
+              onChange={(e) => setDateOfLecture(new Date(e.target.value))}
+            />
         </div>
         <div className="flex flex-col my-2">
           <label className="text-md font-semibold mb-1">Topics Covered</label>

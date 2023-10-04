@@ -48,29 +48,30 @@ export default function Navbar() {
                     </div>
                 }
                 {user && 
-                    <Link href="/account" className="flex items-center">
-                        <div className="flex flex-col items-end text-sm mr-3">
-                            <p className="font-semibold">{user.name}</p>
-                            <p className="uppercase text-xs">{user.role}</p>
-                        </div>
-                        <p className="bg-gray-300 rounded-full px-2 py-2">
-                            <BiUser/>
-                        </p>
-                    </Link>    
+                    <div className="flex items-end">
+                        {user.role === 'admin' && (
+                            <>
+                                <Link href="/admin/upload" className="text-sm font-semibold mr-2">Upload</Link>
+                                <Link href="/admin" className="text-sm font-semibold mr-5">Dashboard</Link>
+                            </>
+                        )}
+                        {user.role === 'student' && (
+                            <>
+                                <Link href="/dashboard" className="text-sm font-semibold mr-5">Dashboard</Link>
+                            </>
+                        )}
+                        <Link href="/account" className="flex items-center">
+                            <div className="flex flex-col items-end text-sm mr-3">
+                                <p className="uppercase text-xs">{user.role}</p>
+                                <p className="font-semibold text-sm">{user.name}</p>
+                            </div>
+                            <p className="bg-gray-300 rounded-full px-2 py-2">
+                                <BiUser />
+                            </p>
+                        </Link>
+                    </div>   
                 }
             </nav>
-            <div className={`${showMenu ? "md:hidden left-0 transition ease-in duration-500" : "left-0 -translate-x-[700px] transition ease-out duration-500"} fixed z-20 top-0 flex justify-center items-center h-screen bg-white text-black rounded-l-md shadow-2xl min-h-screen sm:w-[385px] w-full`}>
-                <ul className="flex flex-col justify-center items-center md:hidden mb-[3px]">
-                        {
-                            links.map((link, index) => (
-                                <Link key={index} href={link.href} className="text-md lg:text-md font-semibold underline m-2">{link.name}</Link>
-                            ))
-                        }
-                </ul>
-                <button onClick={handleMenu} className="fixed top-5 left-5 text-3xl">
-                    <PiArrowBendDoubleUpLeftDuotone/>
-                </button>
-            </div>
         </header>
     )
 }

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase';
+import { getDoc, doc } from 'firebase/firestore';
+import { db } from '../../../firebase';
 
 {/* <ToastContainer
 position="bottom-center"
@@ -37,7 +39,25 @@ const Login = () => {
   
     try {
       await signInWithEmailAndPassword(auth, email, password);
-  
+      
+      const userDocRef = doc(db, 'users', auth.currentUser?.uid || '');
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const userRole = userData?.role;
+
+        // Route based on user role
+        if (userRole === 'admin') {
+          router.push('/admin'); // Route to the admin page
+        } else {
+          router.push('/dashboard'); // Route to the student page
+        }
+      }
+      else {
+        toast.error('User not found! Please Register first...');
+      }
+
       console.log("Login successful!");
       setEmail("");
       setPassword("");
@@ -45,7 +65,6 @@ const Login = () => {
       // success toast notification
       toast.success('Login successful!');
   
-      router.push('/dashboard');
     } catch (error) {
       setEmail("");
       setPassword("");
