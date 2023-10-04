@@ -63,7 +63,7 @@ const Upload = () => {
   const submitFormData = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    const lectureId = v4();
+   const lectureId = v4();
     const lectureFolderRef = ref(storage, `lecture_materials/${lectureId}`);
     const fileUploadPromises = fileUploads.map((file) => {
       const fileName = file.name;
