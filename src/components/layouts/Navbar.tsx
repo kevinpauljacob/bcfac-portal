@@ -52,7 +52,7 @@ export default function Navbar() {
                         {user.role === 'admin' && (
                             <>
                                 <Link href="/admin/upload" className="text-sm font-semibold mr-2">Upload</Link>
-                                <Link href="/admin" className="text-sm font-semibold mr-5">Admin Dashboard</Link>
+                                <Link href="/admin" className="text-sm font-semibold mr-5">Dashboard</Link>
                             </>
                         )}
                         {user.role === 'student' && (
