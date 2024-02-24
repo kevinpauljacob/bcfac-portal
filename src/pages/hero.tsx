@@ -39,21 +39,21 @@ export default function hero() {
             <div className="flex justify-center items-center">
               <div className=" flex items-center justify-between">
                 <Image
-                  className=" h-32 w-32  text-gray-500 dark:text-gray-300"
+                  className=" h-32 w-36 pr-4 md:h-46 md:w-46 text-gray-500 dark:text-gray-300"
                   src={"/srmlogo.png"}
                   alt="SRM logo"
-                  width={500}
-                  height={500}
+                  width={600}
+                  height={600}
                 />
               </div>
 
               <div className="col-span-1 flex items-center justify-center md:col-span-2 lg:col-span-1">
                 <Image
-                  className=" h-48 w-48 md:h-56  md:w-56  text-gray-500 dark:text-gray-300"
-                  src={"/dsbs.png"}
+                  className=" h-32 w-36 pl-4 md:h-46  md:w-46  text-gray-500 dark:text-gray-300"
+                  src={"/dsbs_logo_sm.png"}
                   alt="DSBS Department logo"
-                  width={500}
-                  height={500}
+                  width={600}
+                  height={600}
                 />
               </div>
             </div>
