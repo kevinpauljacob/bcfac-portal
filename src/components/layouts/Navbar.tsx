@@ -40,10 +40,13 @@ export default function Navbar() {
         </div>
         {!user && (
           <div className="flex">
-            <Link href="/login" className="font-semibold mr-2">
+            <Link href="/login" className="font-semibold mr-2 hover:underline">
               Login
             </Link>
-            <Link href="/register" className="font-semibold mx-2">
+            <Link
+              href="/register"
+              className="font-semibold mx-2 hover:underline"
+            >
               Register
             </Link>
             <SlMenu onClick={handleMenu} className="md:hidden text-xl ml-2" />
