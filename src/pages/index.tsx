@@ -76,10 +76,12 @@ export default function Home() {
 
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 xl:mt-16 xl:grid-cols-4">
             <div className="group flex transform cursor-pointer flex-col items-center rounded-xl p-8 transition-colors duration-300 hover:bg-blue-600">
-              <img
+              <Image
                 className="h-32 w-32 rounded-full object-cover ring-4 ring-gray-300"
                 src="https://d23qowwaqkh3fj.cloudfront.net/wp-content/uploads/2022/04/1672236339122-1.jpeg"
                 alt=""
+                height={100}
+                width={100}
               />
 
               <h1 className="mt-4 text-2xl font-semibold capitalize text-gray-700 group-hover:text-white dark:text-white">
