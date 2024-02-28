@@ -196,8 +196,8 @@ export default function Home() {
                   Students delve into decentralized principles, architectural
                   intricacies, and key consensus mechanisms like Proof of Work
                   and Proof of Stake. This subject offers a succinct yet
-                  insightful understanding of blockchain's core concepts and its
-                  practical applications across industries.
+                  insightful understanding of blockchain&apos;s core concepts
+                  and its practical applications across industries.
                 </p>
               </div>
             </div>
