@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { auth } from '../../firebase'; 
-import { onAuthStateChanged } from 'firebase/auth';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { auth } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
-  const WithAuth = (props: any) => { 
+  const WithAuth = (props: any) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (!user) {
-          console.log("You should be logged in to access this page.");
-          router.push('/login');
+          // console.log("You should be logged in to access this page.");
+          router.push("/login");
         } else {
           setIsLoading(false);
         }
@@ -24,11 +24,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
     }, [router]);
 
     if (isLoading) {
-      return (
-        <div className="">
-          Loading...
-        </div>
-      );
+      return <div className="">Loading...</div>;
     }
 
     return <WrappedComponent {...props} />;
