@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Link from 'next/link'
-import { useRouter } from 'next/router';
-import { db } from '../../../firebase'
-import { collection, setDoc, doc } from 'firebase/firestore'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { db } from "../../../firebase";
+import { collection, setDoc, doc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    console.log(formValues);
+    // console.log(formValues);
   }, [formValues]);
 
   const isValidEmail = () => {
@@ -48,7 +48,7 @@ const Register = () => {
           name,
           email,
           registrationNumber,
-          role: "student"
+          role: "student",
         };
 
         const auth = getAuth();
@@ -60,11 +60,11 @@ const Register = () => {
 
         const { uid } = userCredential.user;
 
-        await setDoc(doc(db, 'users', uid), {
+        await setDoc(doc(db, "users", uid), {
           ...newUser,
         });
 
-        console.log("User registered with ID: ", uid);
+        // console.log("User registered with ID: ", uid);
 
         setFormValues({
           name: "",
@@ -74,14 +74,14 @@ const Register = () => {
         });
 
         // Show success toast notification
-        toast.success('Registration successful!');
+        toast.success("Registration successful!");
 
-        router.push('/dashboard');
+        router.push("/dashboard");
       } catch (error) {
         console.error("Error registering user: ", error);
 
         // Show error toast notification
-        toast.error('Registration failed. Please try again.');
+        toast.error("Registration failed. Please try again.");
 
         setFormValues({
           name: "",
@@ -91,8 +91,10 @@ const Register = () => {
         });
       }
     } else {
-      console.error("Email or Registration Number does not match the required pattern.");
-      toast.error('Registration failed. Please try again.');
+      console.error(
+        "Email or Registration Number does not match the required pattern."
+      );
+      toast.error("Registration failed. Please try again.");
     }
   };
 

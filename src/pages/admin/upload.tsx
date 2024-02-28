@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { BsCheck2 } from "react-icons/bs";
 import { IoCloseOutline } from "react-icons/io5";
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../../firebase";
 import { v4 } from "uuid";
 import withAdminAuth from "@/utils/withAdminAuth";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Timestamp } from 'firebase/firestore';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Timestamp } from "firebase/firestore";
 
 const Upload = () => {
   const [lectureDate, setLectureDate] = useState<string>("");
@@ -58,24 +58,26 @@ const Upload = () => {
     }
   };
 
-  useEffect((() => {
-    console.log(fileUploads);
-  }), [fileUploads]);
+  useEffect(() => {
+    // console.log(fileUploads);
+  }, [fileUploads]);
 
   const submitFormData = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-   const lectureId = v4();
+
+    const lectureId = v4();
     const lectureFolderRef = ref(storage, `lecture_materials/${lectureId}`);
     const fileUploadPromises = fileUploads.map((file) => {
       const fileName = file.name;
       const fileRef = ref(lectureFolderRef, fileName);
-      return uploadBytes(fileRef, file, { customMetadata: { fileName: fileName } });
+      return uploadBytes(fileRef, file, {
+        customMetadata: { fileName: fileName },
+      });
     });
-  
+
     try {
       await Promise.all(fileUploadPromises);
-  
+
       const downloadUrls = await Promise.all(
         fileUploads.map(async (file) => {
           const fileName = file.name;
@@ -83,7 +85,7 @@ const Upload = () => {
           return await getDownloadURL(fileRef);
         })
       );
-  
+
       const fileNamesWithUrls = fileUploads.map((file, index) => ({
         fileName: file.name,
         fileUrl: downloadUrls[index],
@@ -91,7 +93,7 @@ const Upload = () => {
 
       const parsedDate = dateOfLecture ? new Date(dateOfLecture) : null;
       const dateTimestamp = parsedDate ? Timestamp.fromDate(parsedDate) : null;
-  
+
       const lectureData = {
         dateOfLecture: dateTimestamp,
         lectureDate,
@@ -100,23 +102,23 @@ const Upload = () => {
         lectureId,
         fileNames: fileNamesWithUrls,
       };
-  
+
       const docRef = await addDoc(collection(db, "lectures"), lectureData);
-      console.log("Document written with ID: ", docRef.id);
-       
+      // console.log("Document written with ID: ", docRef.id);
+
       setDateOfLecture(null);
       setLectureDate("");
       setTopicsCovered([]);
       setRecordingLinks([]);
 
       // Show success toast notification
-      toast.success('File uploaded successfully!');
+      toast.success("File uploaded successfully!");
     } catch (error) {
       console.error("Error adding document: ", error);
       // Show error toast notification
-      toast.error('Error uploading file. Please try again.');
+      toast.error("Error uploading file. Please try again.");
     }
-  };  
+  };
 
   return (
     <div className="my-5">
@@ -135,14 +137,16 @@ const Upload = () => {
           />
         </div>
         <div>
-            <label className="text-md font-semibold mb-1">Date of Lecture</label>
-            <input 
-              className=""
-              type="date"
-              id="dateOfLecture"
-              value={dateOfLecture ? dateOfLecture.toISOString().split('T')[0] : ''}
-              onChange={(e) => setDateOfLecture(new Date(e.target.value))}
-            />
+          <label className="text-md font-semibold mb-1">Date of Lecture</label>
+          <input
+            className=""
+            type="date"
+            id="dateOfLecture"
+            value={
+              dateOfLecture ? dateOfLecture.toISOString().split("T")[0] : ""
+            }
+            onChange={(e) => setDateOfLecture(new Date(e.target.value))}
+          />
         </div>
         <div className="flex flex-col my-2">
           <label className="text-md font-semibold mb-1">Topics Covered</label>
