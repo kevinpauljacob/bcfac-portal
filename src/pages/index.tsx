@@ -12,7 +12,7 @@ export default function Home() {
         <div className="container mx-auto px-6 py-16 pt-28 text-center">
           <div className="mx-auto max-w-lg">
             <h1 className="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl">
-              18CSE427T	Blockchain Architecture and Programming Smart Contracts
+              18CSE416T	Block Chain Foundations, Architecture and Consensus Mechanics & 18CSE427T	Blockchain Architecture and Programming Smart Contracts
             </h1>
 
             <p className="mt-6 text-gray-500 dark:text-gray-300">
