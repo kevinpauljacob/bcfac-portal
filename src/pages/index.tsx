@@ -78,7 +78,7 @@ export default function Home() {
             <div className="group flex transform cursor-pointer flex-col items-center rounded-xl p-8 transition-colors duration-300 hover:bg-blue-600">
               <Image
                 className="h-32 w-32 rounded-full object-cover ring-4 ring-gray-300"
-                src="https://d23qowwaqkh3fj.cloudfront.net/wp-content/uploads/2022/04/1672236339122-1.jpeg"
+                src="https://media.licdn.com/dms/image/v2/D5603AQGESuksK572Zg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1672236340085?e=1756944000&v=beta&t=RH72WOz7yjQeKj10aL3PmJeO44rlLg_JF6b4VreKYCM"
                 alt=""
                 height={100}
                 width={100}
@@ -92,7 +92,7 @@ export default function Home() {
               </h1>
 
               <p className="mt-2 capitalize text-gray-500 group-hover:text-gray-300 dark:text-gray-300">
-                Assistant Professor
+                Associate Professor
               </p>
 
               <div className="-mx-2 mt-3 flex">
@@ -106,6 +106,44 @@ export default function Home() {
 
                 <a
                   href="https://www.linkedin.com/in/shanthakumari/"
+                  className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white dark:text-gray-300 dark:hover:text-gray-300"
+                  aria-label="linkdin"
+                >
+                  <SiLinkedin className="h-6 w-6 fill-current" />
+                </a>
+              </div>
+            </div>
+            <div className="group flex transform cursor-pointer flex-col items-center rounded-xl p-8 transition-colors duration-300 hover:bg-blue-600">
+              <Image
+                className="h-32 w-32 rounded-full object-cover ring-4 ring-gray-300"
+                src="https://media.licdn.com/dms/image/v2/D5603AQFvRZaqnqy9gw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1680500578974?e=1756944000&v=beta&t=f3QuwjrXSu5rihquP2nhTgHgOljsGW1tXiJCimWO1v0"
+                alt=""
+                height={100}
+                width={100}
+              />
+
+              <h1 className="mt-4 text-2xl font-semibold capitalize text-gray-700 group-hover:text-white dark:text-white">
+                Dr Kanmani 
+              </h1>
+              <h1 className="mt-4 text-2xl font-semibold capitalize text-gray-700 group-hover:text-white dark:text-white">
+                Kumari
+              </h1>
+
+              <p className="mt-2 capitalize text-gray-500 group-hover:text-gray-300 dark:text-gray-300">
+                Assistant Professor
+              </p>
+
+              <div className="-mx-2 mt-3 flex">
+                <a
+                  href="https://www.srmist.edu.in/faculty/dr-p-kanmani/"
+                  className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white dark:text-gray-300 dark:hover:text-gray-300"
+                  aria-label="website"
+                >
+                  <FaLink className="h-6 w-6 fill-current" />
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/in/kanmanipalaniappan/"
                   className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white dark:text-gray-300 dark:hover:text-gray-300"
                   aria-label="linkdin"
                 >
